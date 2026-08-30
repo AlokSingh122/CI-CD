@@ -4,36 +4,10 @@ on:
     push:
         branches:
         - main
-env:
-    IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
     
 jobs:
-    build:
+    build-and-deploy:
         runs-on: ubuntu-latest
-        steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-    
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v3
-    
-        - name: Log in to DockerHub
-          uses: docker/login-action@v3
-          with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-    
-        - name: Build and push Docker image
-          uses: docker/build-push-action@v6
-          with:
-            context: .
-            file: ./Dockerfile
-            push: true
-            tags: ${{ env.IMAGE_NAME }}
-    
-    deploy:
-        runs-on: ubuntu-latest
-        needs: build
         steps:
         - name: Setup SSH key
           run: |
@@ -42,19 +16,26 @@ jobs:
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
     
-        - name: Deploy to server
+        - name: Build and deploy on EC2
           run: |
             ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             set -e
-            echo "Deploying to EC2..."
-            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            echo "Pulling latest image..."
-            sudo docker pull ${{ env.IMAGE_NAME }}
+            cd /tmp
+            echo "Cloning repository..."
+            rm -rf CI-CD || true
+            git clone https://github.com/AlokSingh122/CI-CD.git
+            cd CI-CD/testapp
+            echo "Building Docker image natively on ARM64..."
+            sudo docker build -t ${{ secrets.IMAGE_NAME }} .
+            echo "Logging into DockerHub..."
+            echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+            echo "Pushing image to DockerHub..."
+            sudo docker push ${{ secrets.IMAGE_NAME }}
             echo "Stopping existing container..."
             sudo docker stop testapp || true
             sudo docker rm testapp || true
             echo "Starting new container..."
-            sudo docker run -d --name testapp -p 80:80 ${{ env.IMAGE_NAME }}
+            sudo docker run -d --name testapp -p 80:80 ${{ secrets.IMAGE_NAME }}
             echo "Waiting for container to be ready..."
             sleep 5
             echo "Container is running:"

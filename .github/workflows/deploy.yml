@@ -29,7 +29,7 @@ jobs:
             context: .
             file: ./Dockerfile
             push: true
-            tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            tags: ${{ env.IMAGE_NAME }}
     
     deploy:
         runs-on: ubuntu-latest
@@ -49,12 +49,12 @@ jobs:
             echo "Deploying to EC2..."
             sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             echo "Pulling latest image..."
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            sudo docker pull ${{ env.IMAGE_NAME }}
             echo "Stopping existing container..."
             sudo docker stop testapp || true
             sudo docker rm testapp || true
             echo "Starting new container..."
-            sudo docker run -d --name testapp -p 80:80 ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            sudo docker run -d --name testapp -p 80:80 ${{ env.IMAGE_NAME }}
             echo "Waiting for container to be ready..."
             sleep 5
             echo "Container is running:"

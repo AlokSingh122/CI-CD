@@ -8,7 +8,7 @@ env:
     IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
     
 jobs:
-    build-deploy:
+    build:
         runs-on: ubuntu-latest
         steps:
         - name: Checkout code

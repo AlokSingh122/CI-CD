@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+           This is demo project for Docker and mounting succesfully !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11cat src/App.js
         </p>
         <a
           className="App-link"

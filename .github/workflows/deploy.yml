@@ -5,7 +5,7 @@ on:
         branches:
         - main
 env:
-    IMAGE_NAME: cicd
+    IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
     
 jobs:
     build-deploy:

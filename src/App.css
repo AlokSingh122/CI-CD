@@ -5,6 +5,7 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  margin-bottom: 20px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -14,7 +15,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,10 +23,69 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+.App-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 20px 0 10px 0;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.App-description {
+  font-size: 1.2rem;
+  max-width: 600px;
+  line-height: 1.8;
+  margin: 15px 0 30px 0;
+  font-weight: 300;
+  font-family: 'Georgia', serif;
+}
+
+.App-features {
+  display: flex;
+  gap: 30px;
+  margin: 30px 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  font-size: 1.3rem;
+  padding: 15px 25px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
 }
 
 .App-link {
-  color: #61dafb;
+  color: #ffd700;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  padding: 12px 30px;
+  border: 2px solid #ffd700;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-family: 'Arial', sans-serif;
+}
+
+.App-link:hover {
+  background-color: #ffd700;
+  color: #764ba2;
+  transform: scale(1.05);
 }
 
 @keyframes App-logo-spin {

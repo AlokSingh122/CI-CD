@@ -24,7 +24,7 @@ jobs:
             echo "Cloning repository..."
             rm -rf CI-CD || true
             git clone https://github.com/AlokSingh122/CI-CD.git
-            cd CI-CD/testapp
+            cd CI-CD
             echo "Building Docker image natively on ARM64..."
             sudo docker build -t ${{ secrets.IMAGE_NAME }} .
             echo "Logging into DockerHub..."
